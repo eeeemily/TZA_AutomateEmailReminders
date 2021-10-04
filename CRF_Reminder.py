@@ -50,32 +50,28 @@ try:
     driver.find_element_by_name("submit").click()
 
     # step 4: make each entry in the row into a list
-    CRFs = driver.find_element_by_xpath(
-        "//*[starts-with(@style, 'width:')]")
-    missingCRFCollection = []
-    for idx in enumerate(CRFs):
-        tuple = idx % 3
-        if(tuple == 0):
-            tName = driver.find_element_by_xpath(
-                "//*[starts-with(@style, 'padding-bottom:0px;font-size:14px;padding-top:5px;')]//b")
-        elif(tuple == 1):
-            sDate = driver.find_element_by_xpath(
-                "//*[starts-with(@style, 'width:25%')]//p//b")
-            sTime = driver.find_element_by_xpath(
-                "//*[starts-with(@style, 'width:25%;float:left')]//p/text()")
-            # if user attach a file, the selector will not be accurate
-            if(sTime == ""):
-                sTime = driver.find_element_by_xpath(
-                    "//*[starts-with(@style, 'width:25%;float:left')]//p/text()")
 
-        else:
-            tEmialID = driver.find_element_by_xpath(
-                "//*[starts-with(@style, 'width:20%')]//p/following-sibling::p//a/@onclick")
-            print(tEmialID)
-            tEmail = "tbd"
-        tempCRF = missingCRF(tName, sTime, tEmail)
-        missingCRFCollection.append(tempCRF)
-    for c in missingCRFCollection:
-        c.printInfo()
+    missingCRFCollection = []
+
+    index = 3
+
+    test = driver.find_element_by_xpath(
+        (f"(//*[starts-with(@style, 'padding-bottom:0px;font-size:14px;padding-top:5px;')]//b)[{index}]"))
+    print(test.text)
+
+    for idx in range(4, 21):
+        print(idx)
+        tName = driver.find_element_by_xpath(
+            (f"(//*[starts-with(@style, 'padding-bottom:0px;font-size:14px;padding-top:5px;')]//b)[{idx}]"))
+        print(tName.text)
+        sDate = driver.find_element_by_xpath(
+            f"(//*[starts-with(@style, 'width:25%')]//p//b)[{idx}]")
+        print(sDate.text)
+        # sTime = driver.find_element_by_xpath(
+        #     "(//*[starts-with(@style, 'width:25%;float:left')]//p[text()]")
+        # print(sTime)
+
+    # for c in missingCRFCollection:
+    #     c.printInfo()
 except:
     print("something is wrong!")
